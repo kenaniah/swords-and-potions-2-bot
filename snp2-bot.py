@@ -89,12 +89,12 @@ def clickImage(img, similarity = 0.75):
 			found = False
 	return found
 
+# Checks whether an item was built
+def wasSuccessful():
+	return not (clickImage("buttons/ok.png") or clickImage("buttons/closecomponentmissing.png"))
+
 # Attempts to interact with an employee
 def employeeInteraction():
-	
-	# Checks whether an item was built
-	def wasBuilt():
-		return not (clickImage("buttons/ok.png") or clickImage("buttons/closecomponentmissing.png"))
 	
 	# Check for employees
 	for img in employees:
@@ -106,7 +106,7 @@ def employeeInteraction():
 			while len(outOf):
 				target = outOf.pop()
 				print "attempting to build (out of stock) " + str(target)
-				if clickImage(target) and wasBuilt():
+				if clickImage(target) and wasSuccessful():
 					return True
 				
 			# Otherwise attempt to build a random item
@@ -115,7 +115,7 @@ def employeeInteraction():
 			while len(lvlTargets):
 				target = lvlTargets.pop()
 				print "attempting to build (in stock) " + str(target)
-				if clickImage(target) and wasBuilt():
+				if clickImage(target) and wasSuccessful():
 					return True
 				
 			# Time to give up
@@ -141,14 +141,15 @@ def customerInteraction():
 # Attempts to suggest an item to the customer
 def suggestSomething():
 	
-	time.sleep(1)
+	time.sleep(0.25)
 	
-	# Otherwise attempt to build a random item
-	lvlTargets = find_all(Image("lvl-target.png"))
-	print "there are " + str(len(lvlTargets)) + " suggestions available"
-	while len(lvlTargets):
-		if clickImage(lvlTargets.pop()):
-			return
+	# Attempt to build something that we're out of
+	targets = find_all(Image("lvl-target.png"))
+	while len(targets):
+		target = targets.pop()
+		print "attempting to build (out of stock) " + str(target)
+		if clickImage(target) and wasSuccessful():
+			return True
 
 # Main script execution
 print "Now starting..."
