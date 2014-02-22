@@ -25,7 +25,7 @@ switch_to('Edgebee')
 employees = glob.glob("employees/*.png")
 
 # Array of things that should always be clicked
-alwaysClick = [
+always_click = [
 	"buttons/closebtn.png", 
 	"buttons/closecomponentmissing.png", 
 	"buttons/closeitemselect.png", 
@@ -39,7 +39,7 @@ alwaysClick = [
 
 customers = glob.glob("customers/*.png")
 suggest = "customer-interactions/suggest.png"
-customerInteractions = [
+customer_interactions = [
 	"customer-interactions/buy.png",
 	"customer-interactions/sell.png",
 	"customer-interactions/thanks.png",
@@ -104,18 +104,18 @@ def employeeInteraction():
 		if clickImage(img):
 			
 			# Attempt to build something that we're out of
-			outOf = find_all(Image("out-of-stock.png"))
-			while len(outOf):
-				target = outOf.pop()
+			out_of_stock = find_all(Image("out-of-stock.png"))
+			while len(out_of_stock):
+				target = out_of_stock.pop()
 				print "attempting to build (out of stock) " + str(target)
 				if clickImage(target) and wasSuccessful():
 					return True
 				
 			# Otherwise attempt to build a random item
-			lvlTargets = find_all(Image("lvl-target.png"))
-			random.shuffle(lvlTargets)
-			while len(lvlTargets):
-				target = lvlTargets.pop()
+			targets = find_all(Image("lvl-target.png"))
+			random.shuffle(targets)
+			while len(targets):
+				target = targets.pop()
 				print "attempting to build (in stock) " + str(target)
 				if clickImage(target) and wasSuccessful():
 					return True
@@ -135,7 +135,7 @@ def customerInteraction():
 				continue
 			found = True
 			# Interact with customer
-			for img in customerInteractions:
+			for img in customer_interactions:
 				if clickImage(img, 0.95):
 					break
 	return found
@@ -170,7 +170,7 @@ while True:
 		pass
 	
 	# Check for other buttons and such only if nothing else matched
-	for img in alwaysClick:
+	for img in always_click:
 		clickImage(img)
 	
 	while clickImage("buttons/done.png"):
