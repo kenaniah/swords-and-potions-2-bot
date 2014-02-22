@@ -1,12 +1,8 @@
 import glob
-from multiprocessing import Pool
 import os
 import random
 import signal
 import sys
-
-# User modules
-#import subprocess
 
 def signal_handler(signum, frame):
 	print "Now exiting..."
@@ -52,20 +48,6 @@ customerInteractions = [
 	"customer-interactions/refuse.png",
 	"customer-interactions/sorry.png"
 ]
-
-"""
-# Checks if images exist using multiprocessing
-def checkExists(images):
-	pool = Pool(processes=len(images))
-	return pool.map(subprocess.work, images)
-	
-checkExists(alwaysClick)
-"""
-exit()
-
-# Load automata
-from automa.api import *
-switch_to('Edgebee')
 
 # Returns whether the given image was clicked 
 def clickImage(img, similarity = 0.7):
