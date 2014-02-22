@@ -53,7 +53,7 @@ sleep_for = [
 ]
 
 # Returns whether the given image was clicked 
-def clickImage(img, similarity = 0.7):
+def clickImage(img, similarity = 0.75):
 	
 	# Determine if we're going to sleep after click
 	sleepy = 0
