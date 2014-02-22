@@ -16,8 +16,6 @@ os.chdir(os.path.dirname(__file__))
 sys.path.append(r"C:\automa\library.zip")
 from automa.api import *
 
-Config.auto_wait_enabled = False
-
 # Figure out which window to use
 switch_to('Edgebee')
 
