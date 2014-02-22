@@ -157,7 +157,7 @@ while True:
 	
 	# Keep clicking on customers when available
 	while customerInteraction():
-		continue # Search for employees again after helping customers
+		employeeInteraction() # Check for an employee again
 		pass
 	
 	# Check for other buttons and such only if nothing else matched
