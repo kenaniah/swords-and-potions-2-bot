@@ -16,6 +16,8 @@ os.chdir(os.path.dirname(__file__))
 sys.path.append(r"C:\automa\library.zip")
 from automa.api import *
 
+Config.auto_wait_enabled = False
+
 # Figure out which window to use
 switch_to('Edgebee')
 
@@ -56,7 +58,7 @@ def clickImage(img, similarity = 0.7):
 	# Determine if we're going to sleep after click
 	sleepy = 0
 	if img == "buttons/start.png":
-		sleepy = 5
+		sleepy = 3
 	
 	# Convert to an image
 	if not isinstance(img, Image):
@@ -95,7 +97,7 @@ def employeeInteraction():
 					target = lvlTargets.pop()
 					if clickImage(target):
 						# Ensure we ended up building it
-						if not clickImage("buttons/ok.png"):
+						if not clickImage("buttons/ok.png") and not clickImage("buttons/closecomponentmissing.png"):
 							break
 						
 	return found
@@ -106,6 +108,8 @@ def customerInteraction():
 	# Search for customer
 	for img in customers:
 		if clickImage(img):
+			if not Image("customer-interactions/check-if-opened.png").exists():
+				continue
 			found = True
 			# Interact with customer
 			for img in customerInteractions:
