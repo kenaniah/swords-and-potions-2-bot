@@ -148,7 +148,7 @@ def suggestSomething():
 	while len(targets):
 		target = targets.pop()
 		print "attempting to suggest " + str(target)
-		if clickImage(target) and wasSuccessful():
+		if clickImage(target) and not clickImage("buttons/small-ok.png"):
 			return True
 
 # Main script execution
