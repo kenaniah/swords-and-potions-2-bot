@@ -16,7 +16,7 @@ os.chdir(os.path.dirname(__file__))
 sys.path.append(r"C:\automa\library.zip")
 from automa.api import *
 
-Config.wait_interval_secs = 0.1 
+Config.wait_interval_secs = 0.15
 
 # Figure out which window to use
 switch_to('Edgebee')
@@ -59,21 +59,26 @@ def clickImage(img, similarity = 0.7):
 	sleepy = 0
 	if img in sleep_for:
 		sleepy = 1.5
+		
+	is_suggestion = img == suggest
 	
 	# Convert to an image
-	if not isinstance(img, Image):
+	found = True
+	if img == str(img):
 		img = Image(img, similarity)
+		found = img.exists()
 		
 	# Search for the image
-	found = img.exists()
-	print "checking " + str(img)
+	print "check for image " + str(img)
 	if found:
 		print "found image " + str(img)
 		try:
+
+			# Click it
 			click(img)
 			
 			# Handle customer suggestions
-			if img == Image(suggest, similarity):
+			if is_suggestion:
 				suggestSomething()
 			
 			if sleepy:
@@ -99,13 +104,17 @@ def employeeInteraction():
 			# Attempt to build something that we're out of
 			outOf = find_all(Image("out-of-stock.png"))
 			while len(outOf):
-				if clickImage(outOf.pop()) and wasBuilt():
+				target = outOf.pop()
+				print "attempting to build (out of stock) " + str(target)
+				if clickImage(target) and wasBuilt():
 					break
 			# Otherwise attempt to build a random item
 			lvlTargets = find_all(Image("lvl-target.png"))
 			random.shuffle(lvlTargets)
 			while len(lvlTargets):
-				if clickImage(lvlTargets.pop()) and wasBuilt():
+				target = lvlTargets.pop()
+				print "attempting to build (in stock) " + str(target)
+				if clickImage(target) and wasBuilt():
 					break
 					
 	return found
@@ -128,11 +137,13 @@ def customerInteraction():
 # Attempts to suggest an item to the customer
 def suggestSomething():
 	
+	time.sleep(1)
+	
 	# Otherwise attempt to build a random item
 	lvlTargets = find_all(Image("lvl-target.png"))
+	print "there are " + str(len(lvlTargets)) + " suggestions available"
 	while len(lvlTargets):
-		target = lvlTargets.pop()
-		if clickImage(target):
+		if clickImage(lvlTargets.pop()):
 			return
 
 # Main script execution
