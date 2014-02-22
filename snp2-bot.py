@@ -16,7 +16,7 @@ os.chdir(os.path.dirname(__file__))
 sys.path.append(r"C:\automa\library.zip")
 from automa.api import *
 
-Config.wait_interval_secs = 0.15
+Config.wait_interval_secs = 0.2
 
 # Figure out which window to use
 switch_to('Edgebee')
@@ -147,7 +147,7 @@ def suggestSomething():
 	targets = find_all(Image("lvl-target.png"))
 	while len(targets):
 		target = targets.pop()
-		print "attempting to build (out of stock) " + str(target)
+		print "attempting to suggest " + str(target)
 		if clickImage(target) and wasSuccessful():
 			return True
 
