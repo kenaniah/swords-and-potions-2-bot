@@ -42,7 +42,7 @@ customerInteractions = [
 	"customer-interactions/buy.png",
 	"customer-interactions/sell.png",
 	"customer-interactions/thanks.png",
-	#suggest,
+	suggest,
 	"customer-interactions/refuse.png",
 	"customer-interactions/sorry.png"
 ]
@@ -52,7 +52,7 @@ def clickImage(img, similarity = 0.7):
 	
 	# Determine if we're going to sleep after click
 	sleepy = 0
-	if img == "buttons/start.png":
+	if img == "buttons/start.png" or img == "buttons/next.png":
 		sleepy = 1.5
 	
 	# Convert to an image
@@ -66,6 +66,11 @@ def clickImage(img, similarity = 0.7):
 		print "found image " + str(img)
 		try:
 			click(img)
+			
+			# Handle customer suggestions
+			if img == Image(suggest, similarity):
+				suggestSomething()
+			
 			if sleepy:
 				time.sleep(sleepy)
 		except Exception as e:
@@ -79,7 +84,7 @@ def employeeInteraction():
 	
 	# Checks whether an item was built
 	def wasBuilt():
-		return clickImage("buttons/ok.png") and not clickImage("buttons/closecomponentmissing.png")
+		return not (clickImage("buttons/ok.png") or clickImage("buttons/closecomponentmissing.png"))
 	
 	# Check for employees
 	found = False
@@ -116,6 +121,16 @@ def customerInteraction():
 				if clickImage(img, 0.95):
 					break
 	return found
+
+# Attempts to suggest an item to the customer
+def suggestSomething():
+	
+	# Otherwise attempt to build a random item
+	lvlTargets = find_all(Image("lvl-target.png"))
+	while len(lvlTargets):
+		target = lvlTargets.pop()
+		if clickImage(target):
+			return
 
 # Main script execution
 print "Now starting..."
