@@ -32,8 +32,7 @@ alwaysClick = [
 	"buttons/closeitembroken.png",
 	"buttons/ok.png", 
 	"buttons/next.png", 
-	"buttons/start.png", 
-	"buttons/done.png"
+	"buttons/start.png"
 ]
 
 customers = glob.glob("customers/*.png")
@@ -47,12 +46,18 @@ customerInteractions = [
 	"customer-interactions/sorry.png"
 ]
 
+sleep_for = [
+	"buttons/start.png",
+	"buttons/next.png",
+	"buttons/done.png"
+]
+
 # Returns whether the given image was clicked 
 def clickImage(img, similarity = 0.7):
 	
 	# Determine if we're going to sleep after click
 	sleepy = 0
-	if img == "buttons/start.png" or img == "buttons/next.png":
+	if img in sleep_for:
 		sleepy = 1.5
 	
 	# Convert to an image
@@ -93,16 +98,14 @@ def employeeInteraction():
 			found = True
 			# Attempt to build something that we're out of
 			outOf = find_all(Image("out-of-stock.png"))
-			if len(outOf):
-				while clickImage(outOf.pop()):
-					if wasBuilt():
-						break
+			while len(outOf):
+				if clickImage(outOf.pop()) and wasBuilt():
+					break
 			# Otherwise attempt to build a random item
 			lvlTargets = find_all(Image("lvl-target.png"))
 			random.shuffle(lvlTargets)
 			while len(lvlTargets):
-				target = lvlTargets.pop()
-				if clickImage(target) and wasBuilt():
+				if clickImage(lvlTargets.pop()) and wasBuilt():
 					break
 					
 	return found
@@ -150,3 +153,5 @@ while True:
 	for img in alwaysClick:
 		clickImage(img)
 	
+	while clickImage("buttons/done.png"):
+		pass
