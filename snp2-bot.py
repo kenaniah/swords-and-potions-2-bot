@@ -16,6 +16,8 @@ os.chdir(os.path.dirname(__file__))
 sys.path.append(r"C:\automa\library.zip")
 from automa.api import *
 
+Config.wait_interval_secs = 0.1 
+
 # Figure out which window to use
 switch_to('Edgebee')
 
@@ -51,7 +53,7 @@ def clickImage(img, similarity = 0.7):
 	# Determine if we're going to sleep after click
 	sleepy = 0
 	if img == "buttons/start.png":
-		sleepy = 3
+		sleepy = 1.5
 	
 	# Convert to an image
 	if not isinstance(img, Image):
@@ -74,23 +76,29 @@ def clickImage(img, similarity = 0.7):
 
 # Attempts to interact with an employee
 def employeeInteraction():
+	
+	# Checks whether an item was built
+	def wasBuilt():
+		return clickImage("buttons/ok.png") and not clickImage("buttons/closecomponentmissing.png")
+	
 	# Check for employees
 	found = False
 	for img in employees:
 		if clickImage(img):
 			found = True
 			# Attempt to build something that we're out of
-			if clickImage("out-of-stock.png"):
-				break
+			outOf = find_all(Image("out-of-stock.png"))
+			if len(outOf):
+				while clickImage(outOf.pop()):
+					if wasBuilt():
+						break
 			# Otherwise attempt to build a random item
 			lvlTargets = find_all(Image("lvl-target.png"))
 			random.shuffle(lvlTargets)
 			while len(lvlTargets):
 				target = lvlTargets.pop()
-				if clickImage(target):
-					# Ensure we ended up building it
-					if not clickImage("buttons/ok.png") and not clickImage("buttons/closecomponentmissing.png"):
-						break
+				if clickImage(target) and wasBuilt():
+					break
 					
 	return found
 
