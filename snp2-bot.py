@@ -97,17 +97,18 @@ def employeeInteraction():
 		return not (clickImage("buttons/ok.png") or clickImage("buttons/closecomponentmissing.png"))
 	
 	# Check for employees
-	found = False
 	for img in employees:
+		
 		if clickImage(img):
-			found = True
+			
 			# Attempt to build something that we're out of
 			outOf = find_all(Image("out-of-stock.png"))
 			while len(outOf):
 				target = outOf.pop()
 				print "attempting to build (out of stock) " + str(target)
 				if clickImage(target) and wasBuilt():
-					break
+					return True
+				
 			# Otherwise attempt to build a random item
 			lvlTargets = find_all(Image("lvl-target.png"))
 			random.shuffle(lvlTargets)
@@ -115,9 +116,12 @@ def employeeInteraction():
 				target = lvlTargets.pop()
 				print "attempting to build (in stock) " + str(target)
 				if clickImage(target) and wasBuilt():
-					break
-					
-	return found
+					return True
+				
+			# Time to give up
+			clickImage("buttons/closeitemselect.png")
+			
+	return False
 
 # Attempts to interact with customers
 def customerInteraction():
