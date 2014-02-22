@@ -1,8 +1,12 @@
 import glob
+from multiprocessing import Pool
 import os
 import random
 import signal
 import sys
+
+# User modules
+#import subprocess
 
 def signal_handler(signum, frame):
 	print "Now exiting..."
@@ -11,7 +15,7 @@ def signal_handler(signum, frame):
 signal.signal(signal.SIGINT, signal_handler)
 
 # Environment setup
-os.chdir(r"C:\automa\Kenaniah.automa")
+os.chdir(os.path.dirname(__file__))
 sys.path.append(r"C:\automa\library.zip")
 from automa.api import *
 
@@ -45,8 +49,23 @@ customerInteractions = [
 	"customer-interactions/sell.png",
 	"customer-interactions/thanks.png",
 	#suggest,
-	"customer-interactions/refuse.png"
+	"customer-interactions/refuse.png",
+	"customer-interactions/sorry.png"
 ]
+
+"""
+# Checks if images exist using multiprocessing
+def checkExists(images):
+	pool = Pool(processes=len(images))
+	return pool.map(subprocess.work, images)
+	
+checkExists(alwaysClick)
+"""
+exit()
+
+# Load automata
+from automa.api import *
+switch_to('Edgebee')
 
 # Returns whether the given image was clicked 
 def clickImage(img, similarity = 0.7):
@@ -90,10 +109,8 @@ def employeeInteraction():
 print "Now starting..."
 
 while True:
-
-	# Close whatever may be open
-	for img in alwaysClick:
-		clickImage(img)
+	
+	break_out = False
 			
 	# Click on customers
 	for img in customers:
@@ -103,8 +120,16 @@ while True:
 	# Interact with customer
 	for img in customerInteractions:
 		if clickImage(img, 0.95):
-			break	
+			break_out = True
+			break
+	
+	if break_out:
+		continue
 	
 	# Interact with employees
 	employeeInteraction()
+	
+	# Close whatever may be open
+	for img in alwaysClick:
+		clickImage(img)
 	
