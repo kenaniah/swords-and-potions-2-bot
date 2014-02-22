@@ -3,6 +3,7 @@ import os
 import random
 import signal
 import sys
+import time
 
 def signal_handler(signum, frame):
 	print "Now exiting..."
@@ -51,15 +52,25 @@ customerInteractions = [
 
 # Returns whether the given image was clicked 
 def clickImage(img, similarity = 0.7):
+	
+	# Determine if we're going to sleep after click
+	sleepy = 0
+	if img == "buttons/start.png":
+		sleepy = 5
+	
+	# Convert to an image
 	if not isinstance(img, Image):
 		img = Image(img, similarity)
+		
+	# Search for the image
 	found = img.exists()
 	print "checking " + str(img)
 	if found:
 		print "found image " + str(img)
 		try:
-			#hover(img)
 			click(img)
+			if sleepy:
+				time.sleep(sleepy)
 		except Exception as e:
 			print e
 			print "couldn't click it"
@@ -69,9 +80,11 @@ def clickImage(img, similarity = 0.7):
 # Attempts to interact with an employee
 def employeeInteraction():
 	# Check for employees
+	found = False
 	for employee, imgArray in employees.items():
 		for img in imgArray:
 			if clickImage(img):
+				found = True
 				# Attempt to build something that we're out of
 				if clickImage("out-of-stock.png"):
 					break
@@ -80,38 +93,41 @@ def employeeInteraction():
 				random.shuffle(lvlTargets)
 				while len(lvlTargets):
 					target = lvlTargets.pop()
-					if clickImage(lvlTargets[target]):
+					if clickImage(target):
 						# Ensure we ended up building it
 						if not clickImage("buttons/ok.png"):
 							break
 						
-				
+	return found
+
+# Attempts to interact with customers
+def customerInteraction():
+	found = False
+	# Search for customer
+	for img in customers:
+		if clickImage(img):
+			found = True
+			# Interact with customer
+			for img in customerInteractions:
+				if clickImage(img, 0.95):
+					break
+	return found
 
 # Main script execution
 print "Now starting..."
 
 while True:
 	
-	break_out = False
-			
-	# Click on customers
-	for img in customers:
-		if clickImage(img):
-			break;
+	# Keep clicking on employees when available
+	while employeeInteraction():
+		pass
 	
-	# Interact with customer
-	for img in customerInteractions:
-		if clickImage(img, 0.95):
-			break_out = True
-			break
+	# Keep clicking on customers when available
+	while customerInteraction():
+		continue # Search for employees again after helping customers
+		pass
 	
-	if break_out:
-		continue
-	
-	# Interact with employees
-	employeeInteraction()
-	
-	# Close whatever may be open
+	# Check for other buttons and such only if nothing else matched
 	for img in alwaysClick:
 		clickImage(img)
 	
