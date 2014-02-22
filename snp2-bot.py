@@ -32,7 +32,9 @@ alwaysClick = [
 	"buttons/closeitembroken.png",
 	"buttons/ok.png", 
 	"buttons/next.png", 
-	"buttons/start.png"
+	"buttons/start.png",
+	"customer-interactions/refuse.png",
+	"customer-interactions/sorry.png"
 ]
 
 customers = glob.glob("customers/*.png")
