@@ -20,12 +20,7 @@ from automa.api import *
 switch_to('Edgebee')
 
 # Global definitions go here
-employees = {
-	"shopkeeper": ["employees/shopkeeper-1.png", "employees/shopkeeper-2.png"],
-	"carpenter": ["employees/carpenter-1.png", "employees/carpenter-2.png"],
-	"blacksmith": ["employees/blacksmith-1.png", "employees/blacksmith-2.png"],
-	"druid": ["employees/druid-1.png", "employees/druid-2.png"]
-}
+employees = glob.glob("employees/*.png")
 
 # Array of things that should always be clicked
 alwaysClick = [
@@ -81,23 +76,22 @@ def clickImage(img, similarity = 0.7):
 def employeeInteraction():
 	# Check for employees
 	found = False
-	for employee, imgArray in employees.items():
-		for img in imgArray:
-			if clickImage(img):
-				found = True
-				# Attempt to build something that we're out of
-				if clickImage("out-of-stock.png"):
-					break
-				# Otherwise attempt to build a random item
-				lvlTargets = find_all(Image("lvl-target.png"))
-				random.shuffle(lvlTargets)
-				while len(lvlTargets):
-					target = lvlTargets.pop()
-					if clickImage(target):
-						# Ensure we ended up building it
-						if not clickImage("buttons/ok.png") and not clickImage("buttons/closecomponentmissing.png"):
-							break
-						
+	for img in employees:
+		if clickImage(img):
+			found = True
+			# Attempt to build something that we're out of
+			if clickImage("out-of-stock.png"):
+				break
+			# Otherwise attempt to build a random item
+			lvlTargets = find_all(Image("lvl-target.png"))
+			random.shuffle(lvlTargets)
+			while len(lvlTargets):
+				target = lvlTargets.pop()
+				if clickImage(target):
+					# Ensure we ended up building it
+					if not clickImage("buttons/ok.png") and not clickImage("buttons/closecomponentmissing.png"):
+						break
+					
 	return found
 
 # Attempts to interact with customers
