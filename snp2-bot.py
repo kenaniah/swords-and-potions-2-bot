@@ -141,15 +141,17 @@ def customerInteraction():
 # Attempts to suggest an item to the customer
 def suggestSomething():
 	
-	time.sleep(0.25)
+	time.sleep(0.1)
 	
 	# Attempt to build something that we're out of
 	targets = find_all(Image("lvl-target.png"))
 	while len(targets):
 		target = targets.pop()
 		print "attempting to suggest " + str(target)
-		if clickImage(target) and not clickImage("buttons/small-ok.png"):
-			return True
+		if clickImage(target):
+			time.sleep(0.1)
+			if not clickImage("buttons/small-ok.png"):
+				return True
 
 # Main script execution
 print "Now starting..."
