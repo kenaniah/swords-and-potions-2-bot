@@ -60,7 +60,7 @@ def clickImage(img, similarity = 0.8): #can not go higher than 0.8 due to close 
 	# Determine if we're going to sleep after click
 	sleepy = 0
 	if img in sleep_for:
-		sleepy = 1.5
+		sleepy = 0.75
 		
 	is_suggestion = img == suggest
 	
@@ -143,15 +143,12 @@ def customerInteraction():
 # Attempts to suggest an item to the customer
 def suggestSomething():
 	
-	time.sleep(0.1)
-	
 	# Attempt to build something that we're out of
 	targets = find_all(Image("lvl-target.png"))
 	while len(targets):
 		target = targets.pop()
 		print "attempting to suggest " + str(target)
 		if clickImage(target):
-			time.sleep(0.1)
 			if not clickImage("buttons/small-ok.png"):
 				return True
 
