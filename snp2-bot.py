@@ -55,7 +55,7 @@ sleep_for = [
 ]
 
 # Returns whether the given image was clicked 
-def clickImage(img, similarity = 0.7):
+def clickImage(img, similarity = 0.8): #can not go higher than 0.8 due to close item select button
 	
 	# Determine if we're going to sleep after click
 	sleepy = 0
@@ -104,7 +104,7 @@ def employeeInteraction():
 		if clickImage(img):
 			
 			# Attempt to build something that we're out of
-			out_of_stock = find_all(Image("out-of-stock.png"))
+			out_of_stock = find_all(Image("out-of-stock.png", 0.95))
 			while len(out_of_stock):
 				target = out_of_stock.pop()
 				print "attempting to build (out of stock) " + str(target)
