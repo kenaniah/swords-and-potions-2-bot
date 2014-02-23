@@ -106,6 +106,7 @@ def employeeInteraction():
 		
 		if clickImage(img):
 			
+			"""
 			# Attempt to build something that we're out of
 			out_of_stock = find_all(Image("out-of-stock.png", 0.95))
 			while len(out_of_stock):
@@ -113,13 +114,14 @@ def employeeInteraction():
 				print "attempting to build (out of stock) " + str(target)
 				if clickImage(target) and wasSuccessful():
 					return True
+			"""
 				
 			# Otherwise attempt to build a random item
 			targets = find_all(Image("lvl-target.png"))
 			random.shuffle(targets)
 			while len(targets):
 				target = targets.pop()
-				print "attempting to build (in stock) " + str(target)
+				print "attempting to build " + str(target)
 				if clickImage(target) and wasSuccessful():
 					return True
 				
@@ -165,8 +167,12 @@ while True:
 		pass
 	
 	# Keep clicking on customers when available
+	loop = 0
 	while customerInteraction():
+		loop = loop + 1
 		employeeInteraction() # Check for an employee again
+		if loop > 4:
+			break
 		pass
 	
 	# Check for other buttons and such only if nothing else matched
