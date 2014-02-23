@@ -36,7 +36,8 @@ always_click = [
 	"buttons/next.png", 
 	"buttons/start.png",
 	"customer-interactions/refuse.png",
-	"customer-interactions/sorry.png"
+	"customer-interactions/sorry.png",
+	"customer-interactions/ok.png" # needed for adventures
 ]
 
 customers = glob.glob("customers/*.png")
