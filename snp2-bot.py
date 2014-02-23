@@ -30,7 +30,9 @@ always_click = [
 	"buttons/closecomponentmissing.png", 
 	"buttons/closeitemselect.png", 
 	"buttons/closeitembroken.png",
-	"buttons/ok.png", 
+	"buttons/ok.png",
+	"buttons/small-ok.png",  # needed for achievements
+	"buttons/small-ok-2.png",  # needed for can't select items
 	"buttons/next.png", 
 	"buttons/start.png",
 	"customer-interactions/refuse.png",
