@@ -55,7 +55,7 @@ sleep_for = [
 ]
 
 # Returns whether the given image was clicked 
-def clickImage(img, similarity = 0.70):
+def clickImage(img, similarity = 0.8):
 	
 	# Determine if we're going to sleep after click
 	sleepy = 0
@@ -131,10 +131,8 @@ def customerInteraction():
 	# Search for customer
 	for img in customers:
 		if clickImage(img):
-			if not Image("customer-interactions/check-if-opened.png").exists():
-				continue
-			found = True
 			# Interact with customer
+			found = True
 			for img in customer_interactions:
 				if clickImage(img, 0.9):
 					break
