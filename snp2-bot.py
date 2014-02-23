@@ -131,10 +131,12 @@ def customerInteraction():
 	# Search for customer
 	for img in customers:
 		if clickImage(img):
-			# Interact with customer
+			if not Image("customer-interactions/check-if-opened.png").exists():
+				continue
 			found = True
+			# Interact with customer
 			for img in customer_interactions:
-				if clickImage(img, 0.9):
+				if clickImage(img, 0.95):
 					break
 	return found
 
