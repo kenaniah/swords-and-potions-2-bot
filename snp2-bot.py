@@ -17,15 +17,16 @@ sys.path.append(r"C:\automa\library.zip")
 from automa.api import *
 
 Config.wait_interval_secs = 0.2
+Image.min_similarity = 0.8  #can not go higher than 0.8 due to close item select button
 
 # Figure out which window to use
 switch_to('Edgebee')
 
 # Global definitions go here
-employees = glob.glob("employees/*.png")
+employees = [Image(x, Image.min_similarity) for x in glob.glob("employees/*.png")]
 
 # Array of things that should always be clicked
-always_click = [
+always_click = [Image(x, Image.min_similarity) for x in [
 	"buttons/closebtn.png", 
 	"buttons/closecomponentmissing.png", 
 	"buttons/closeitemselect.png", 
@@ -38,43 +39,43 @@ always_click = [
 	"customer-interactions/refuse.png",
 	"customer-interactions/sorry.png",
 	"customer-interactions/ok.png" # needed for adventures
-]
+]]
 
-customers = glob.glob("customers/*.png")
-suggest = "customer-interactions/suggest.png"
-customer_interactions = [
+customers = [Image(x, Image.min_similarity) for x in glob.glob("customers/*.png")]
+customer_interactions = [Image(x, Image.min_similarity) for x in [
 	"customer-interactions/buy.png",
 	"customer-interactions/sell.png",
 	"customer-interactions/thanks.png",
-	suggest,
+	"customer-interactions/suggest.png",
 	"customer-interactions/refuse.png",
 	"customer-interactions/sorry.png"
-]
+]]
+suggest = customer_interactions[3]
 
-sleep_for = [
+sleep_for = [Image(x, Image.min_similarity) for x in [
 	"buttons/start.png",
 	"buttons/next.png",
 	"buttons/done.png"
-]
+]]
 
 # Returns whether the given image was clicked 
-def clickImage(img, similarity = 0.8): #can not go higher than 0.8 due to close item select button
+def clickImage(img, findIt = True):
 	
 	# Determine if we're going to sleep after click
 	sleepy = 0
 	if img in sleep_for:
 		sleepy = 0.75
 		
-	is_suggestion = img == suggest
-	
 	# Convert to an image
 	found = True
 	if img == str(img):
-		img = Image(img, similarity)
-		found = img.exists()
+		img = Image(img, Image.min_similarity)
+		findIt = True
 		
 	# Search for the image
 	print "check for image " + str(img)
+	if findIt:
+		found = img.exists()
 	if found:
 		print "found image " + str(img)
 		try:
@@ -83,7 +84,7 @@ def clickImage(img, similarity = 0.8): #can not go higher than 0.8 due to close 
 			click(img)
 			
 			# Handle customer suggestions
-			if is_suggestion:
+			if img == suggest:
 				suggestSomething()
 			
 			if sleepy:
@@ -122,7 +123,7 @@ def employeeInteraction():
 			while len(targets):
 				target = targets.pop()
 				print "attempting to build " + str(target)
-				if clickImage(target) and wasSuccessful():
+				if clickImage(target, findIt = False) and wasSuccessful():
 					return True
 				
 			# Time to give up
@@ -153,7 +154,7 @@ def suggestSomething():
 	while len(targets):
 		target = targets.pop()
 		print "attempting to suggest " + str(target)
-		if clickImage(target):
+		if clickImage(target, findIt = False):
 			if not clickImage("buttons/small-ok.png"):
 				return True
 
