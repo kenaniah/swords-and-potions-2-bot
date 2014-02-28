@@ -99,9 +99,10 @@ def wasSuccessful():
 	return not (clickImage("buttons/ok.png") or clickImage("buttons/closecomponentmissing.png"))
 
 # Attempts to interact with an employee
-def employeeInteraction():
+def employeeInteraction(loop=True):
 	
 	# Check for employees
+	found = False
 	for img in employees:
 		
 		if clickImage(img):
@@ -121,14 +122,18 @@ def employeeInteraction():
 			random.shuffle(targets)
 			while len(targets):
 				target = targets.pop()
+				if target.y > 600: 
+					continue # Don't count level targets that are too low
 				print "attempting to build " + str(target)
 				if clickImage(target) and wasSuccessful():
-					return True
+					found = True
+					if not loop:
+						return found
 				
 			# Time to give up
 			clickImage("buttons/closeitemselect.png")
 			
-	return False
+	return found
 
 # Attempts to interact with customers
 def customerInteraction():
@@ -152,6 +157,8 @@ def suggestSomething():
 	targets = find_all(Image("lvl-target.png"))
 	while len(targets):
 		target = targets.pop()
+		if target.y > 600: 
+			continue # Don't count level targets that are too low
 		print "attempting to suggest " + str(target)
 		if clickImage(target):
 			if not clickImage("buttons/small-ok.png"):
@@ -163,14 +170,13 @@ print "Now starting..."
 while True:
 	
 	# Keep clicking on employees when available
-	while employeeInteraction():
-		pass
+	employeeInteraction(loop=True)
 	
 	# Keep clicking on customers when available
 	loop = 0
 	while customerInteraction():
 		loop = loop + 1
-		employeeInteraction() # Check for an employee again
+		employeeInteraction(loop=False) # Check for an employee again
 		if loop > 4:
 			break
 		pass
