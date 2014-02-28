@@ -107,16 +107,6 @@ def employeeInteraction(loop=True):
 	for img in employees:
 		
 		if clickImage(img):
-			
-			"""
-			# Attempt to build something that we're out of
-			out_of_stock = find_all(Image("out-of-stock.png", 0.95))
-			while len(out_of_stock):
-				target = out_of_stock.pop()
-				print "attempting to build (out of stock) " + str(target)
-				if clickImage(target) and wasSuccessful():
-					return True
-			"""
 				
 			# Otherwise attempt to build a random item
 			targets = find_all(Image("lvl-target.png"))
@@ -126,10 +116,12 @@ def employeeInteraction(loop=True):
 				if target.y > 600: 
 					continue # Don't count level targets that are too low
 				print "attempting to build " + str(target)
-				if clickImage(target) and wasSuccessful():
-					found = True
-					if not loop:
-						return found
+				if clickImage(target):
+					if wasSuccessful():
+						found = True
+						if not loop:
+							return found
+						break
 				
 			# Time to give up
 			clickImage("buttons/closeitemselect.png")
