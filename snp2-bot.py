@@ -1,3 +1,4 @@
+import gc
 import glob
 import os
 import random
@@ -58,7 +59,7 @@ sleep_for = [
 ]
 
 # Returns whether the given image was clicked 
-def clickImage(img, similarity = 0.8): #can not go higher than 0.8 due to close item select button
+def clickImage(img, similarity = 0.75): #can not go higher than 0.8 due to close item select button
 	
 	# Determine if we're going to sleep after click
 	sleepy = 0
@@ -187,3 +188,5 @@ while True:
 	
 	while clickImage("buttons/done.png"):
 		pass
+	
+	print "Garbage collected " + str(gc.collect()) + " objects"
