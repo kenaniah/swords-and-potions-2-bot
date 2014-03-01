@@ -125,6 +125,7 @@ def employeeInteraction(loop=True):
 				
 			# Time to give up
 			clickImage("buttons/closeitemselect.png")
+			clickImage("buttons/closeresource.png")
 			
 	return found
 
@@ -135,6 +136,8 @@ def customerInteraction():
 	for img in customers:
 		if clickImage(img):
 			if not Image("customer-interactions/check-if-opened.png").exists():
+				clickImage("buttons/closeitemselect.png")
+				clickImage("buttons/closeresource.png")
 				continue
 			found = True
 			# Interact with customer
