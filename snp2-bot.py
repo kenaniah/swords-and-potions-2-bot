@@ -144,6 +144,10 @@ def customerInteraction():
 			for img in customer_interactions:
 				if clickImage(img, 0.95):
 					break
+			if random.randint(0, 1):
+				# Check for an employee again
+				employeeInteraction(loop=False)
+			
 	return found
 
 # Attempts to suggest an item to the customer
