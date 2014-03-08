@@ -58,6 +58,13 @@ sleep_for = [
 	"buttons/done.png"
 ]
 
+# Initialize build cycles
+cycle_path = "build-cycles/"
+build_cycle_indexes = {x: 0 for x in os.listdir(cycle_path) if os.path.isdir(os.path.join(cycle_path, x))}
+build_cycle_items = {}
+for k in build_cycle_indexes.keys():
+	build_cycle_items[k] = glob.glob(os.path.join(cycle_path, k, "*.png"))
+
 # Returns whether the given image was clicked 
 def clickImage(img, similarity = 0.75): #can not go higher than 0.8 due to close item select button
 	
