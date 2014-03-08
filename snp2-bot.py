@@ -109,6 +109,11 @@ def employeeInteraction(loop=True):
 	for img in employees:
 		
 		if clickImage(img):
+			
+			if not Image("employee-interactions/empty-queue.png", 0.75).exists():
+				# This employee is already building something
+				clickImage("buttons/closeitemselect.png")
+				continue
 				
 			# Otherwise attempt to build a random item
 			targets = find_all(Image("lvl-target.png"))
