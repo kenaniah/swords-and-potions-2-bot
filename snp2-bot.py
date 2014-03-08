@@ -41,6 +41,7 @@ always_click = [
 	"customer-interactions/ok.png" # needed for adventures
 ]
 
+# Array of customers and their interactions
 customers = glob.glob("customers/*.png")
 suggest = "customer-interactions/suggest.png"
 customer_interactions = [
@@ -52,13 +53,14 @@ customer_interactions = [
 	"customer-interactions/sorry.png"
 ]
 
+# Array of buttons that need a pause after clicking
 sleep_for = [
 	"buttons/start.png",
 	"buttons/next.png",
 	"buttons/done.png"
 ]
 
-# Initialize build cycles
+# Initializations for employee build cycles
 cycle_path = "build-cycles/"
 build_cycle_indexes = {x: 0 for x in os.listdir(cycle_path) if os.path.isdir(os.path.join(cycle_path, x))}
 build_cycle_items = {}
@@ -121,6 +123,13 @@ def employeeInteraction(loop=True):
 				# This employee is already building something
 				clickImage("buttons/closeitemselect.png")
 				continue
+			
+			# Attempt to use a build cycle for that employee
+			if employeeBuildCycle(img):
+				found = True
+				if not loop:
+					return found
+				continue # Move on to the next employee
 				
 			# Otherwise attempt to build a random item
 			targets = find_all(Image("lvl-target.png"))
@@ -142,6 +151,21 @@ def employeeInteraction(loop=True):
 			clickImage("buttons/closeresource.png")
 			
 	return found
+
+# Attempts to execute the build cycle for the given employee
+def employeeBuildCycle(img):
+	
+	# Determine the employee name
+	employee = img.split("-")[0]
+	
+	if build_cycle_items[employee] and len(build_cycle_items[employee]):
+		build_cycle_indexes[employee] = build_cycle_indexes[employee] + 1 % len(build_cycle_items[employee])
+		item = build_cycle_items[employee][build_cycle_indexes[employee]]
+		
+		if clickImage(item):
+			return wasSuccessful()
+		
+	return False
 
 # Attempts to interact with customers
 def customerInteraction():
