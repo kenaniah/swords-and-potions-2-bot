@@ -71,6 +71,8 @@ def clickImage(img, similarity = 0.75): #can not go higher than 0.8 due to close
 	# Convert to an image
 	found = True
 	if img == str(img):
+		if img == "buttons/next.png":
+			similarity = 0.5
 		img = Image(img, similarity)
 		found = img.exists()
 		
@@ -138,6 +140,7 @@ def customerInteraction():
 			if not Image("customer-interactions/check-if-opened.png").exists():
 				clickImage("buttons/closeitemselect.png")
 				clickImage("buttons/closeresource.png")
+				clickImage("buttons/closeconstruction.png")
 				continue
 			found = True
 			# Interact with customer
