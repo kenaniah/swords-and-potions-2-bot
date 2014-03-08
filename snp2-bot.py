@@ -62,7 +62,7 @@ sleep_for = [
 
 # Initializations for employee build cycles
 cycle_path = "build-cycles/"
-build_cycle_indexes = {x: 0 for x in os.listdir(cycle_path) if os.path.isdir(os.path.join(cycle_path, x))}
+build_cycle_indexes = {x: -1 for x in os.listdir(cycle_path) if os.path.isdir(os.path.join(cycle_path, x))}
 build_cycle_items = {}
 for k in build_cycle_indexes.keys():
 	build_cycle_items[k] = glob.glob(os.path.join(cycle_path, k, "*.png"))
@@ -115,6 +115,7 @@ def employeeInteraction(loop=True):
 	
 	# Check for employees
 	found = False
+	random.shuffle(employees)
 	for img in employees:
 		
 		if clickImage(img):
@@ -156,10 +157,10 @@ def employeeInteraction(loop=True):
 def employeeBuildCycle(img):
 	
 	# Determine the employee name
-	employee = img.split("-")[0]
+	employee = os.path.basename(img).split("-")[0]
 	
 	if build_cycle_items[employee] and len(build_cycle_items[employee]):
-		build_cycle_indexes[employee] = build_cycle_indexes[employee] + 1 % len(build_cycle_items[employee])
+		build_cycle_indexes[employee] = (build_cycle_indexes[employee] + 1) % len(build_cycle_items[employee])
 		item = build_cycle_items[employee][build_cycle_indexes[employee]]
 		
 		if clickImage(item):
