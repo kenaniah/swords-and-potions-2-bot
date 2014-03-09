@@ -214,12 +214,11 @@ while True:
 	
 	# Keep clicking on customers when available
 	loop = 0
-	while customerInteraction():
+	while (not Image("summary.png").exists()) and customerInteraction():
 		loop = loop + 1
 		employeeInteraction(loop=False) # Check for an employee again
 		if loop > 4:
 			break
-		pass
 	
 	# Check for other buttons and such only if nothing else matched
 	for img in always_click:
