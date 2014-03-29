@@ -73,7 +73,7 @@ def clickImage(img, similarity = 0.75): #can not go higher than 0.8 due to close
 	# Determine if we're going to sleep after click
 	sleepy = 0
 	if img in sleep_for:
-		sleepy = 0.75
+		sleepy = 3
 		
 	is_suggestion = img == suggest
 	
@@ -184,7 +184,7 @@ def customerInteraction():
 			for img in customer_interactions:
 				if clickImage(img, 0.95):
 					break
-			if random.randint(0, 1):
+			if random.randint(1, 100) <= 36: #36% chance
 				# Check for an employee again
 				employeeInteraction(loop=False)
 			
@@ -195,6 +195,7 @@ def suggestSomething():
 	
 	# Attempt to build something that we're out of
 	targets = find_all(Image("lvl-target.png"))
+	random.shuffle(targets)
 	while len(targets):
 		target = targets.pop()
 		if target.y > 600: 
@@ -217,7 +218,7 @@ while True:
 	while (not Image("summary.png").exists()) and customerInteraction():
 		loop = loop + 1
 		employeeInteraction(loop=False) # Check for an employee again
-		if loop > 4:
+		if loop > 8:
 			break
 	
 	# Check for other buttons and such only if nothing else matched
