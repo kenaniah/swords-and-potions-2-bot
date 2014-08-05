@@ -184,7 +184,7 @@ def customerInteraction():
 			for img in customer_interactions:
 				if clickImage(img, 0.95):
 					break
-			if random.randint(1, 100) <= 36: #36% chance
+			if random.randint(1, 100) <= 5: #5% chance
 				# Check for an employee again
 				employeeInteraction(loop=False)
 			
