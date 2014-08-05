@@ -16,7 +16,7 @@ All relevant images are loaded at startup, so swapping out images requires a res
 
 ## How it Works
 
-The bot essentially uses Automa's image recognition features to click on stuff. Images are broken down into sub-directories by type:
+Images are broken down into sub-directories by type:
  * **build-cycles** - should have a subdirectory per worker (builds of items are attempted in alphabetic order of the image names)
  * **buttons** - contains miscellaneous buttons that need to be clicked at certain points
  * **customer-interactions** - contains the images that are clicked when interacting with customers
@@ -24,11 +24,25 @@ The bot essentially uses Automa's image recognition features to click on stuff. 
  * **employee-interactions** - you've guessed it...
  * **employees** - mugshots of the workers you are currently using (put the rest in the ignore directory)
 
+### Bot Logic
 
+ 1. Attempt to interact with any and all available employees
+   1. Attempt to build the next item in the employee's build cycle
+   2. Attempt to build a random item upon failure
+ 2. Attempt to interact with a customer
+   1. Buy if possible
+   2. Sell if possible. $$profit$$
+   3. Suggest an item if possible. $$moar profit$$
+   4. Loops up to 8 times if successful
+   5. Attempts to check for an employee after handling a customer
+ 3. Check for other random / unexpected buttons to handle bad clicks, etc.
+ 4. Attempt to click the done / next day buttons
 
 Due to Automa's speed, all of your customers will end up mad after a few minutes when you hit the midgame. But it's a small price to pay for waking up to millions after a single night. 
 
 ## Tips
+
+Automa greyscales images, so color differences should not matter. 
 
 Most of the images provided were taken at a zoom of 125%, so if you play the game at the normal 100% zoom instead, some of the images may need to be retaken or scaled to match. 
 
