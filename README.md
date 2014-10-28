@@ -40,6 +40,17 @@ Images are broken down into sub-directories by type:
 
 Due to Automa's speed, all of your customers will end up mad after a few minutes when you hit the midgame. But it's a small price to pay for waking up to millions after a single night. 
 
+## FAQ
+
+<dl>
+ <dt>The bot crashes instead of starting. Why?</dt>
+ <dd>You are either using the wrong version of python (Automa is very specific) or the game's window was not found.</dd>
+ <dt>Why is the bot not able to find matches for my screenshots?</dt>
+ <dd>Screenshot images need to have as little background noise as possible. Automa performs a grey-scale image similarity match, and it is not capable of filtering out backgrounds that are not part of what you are trying to match.</dd>
+ <dt>Is there a way to make the bot faster? Image searching seems slow.</dt>
+ <dd>Unfortunately Automa does not currently support parallel processing, range-constrained searches, nor the recognition of multiple patterns from a single screenshot. If these are the features you are looking for, you could always fork and rewrite the bot using OpenCV. Good luck (you'll need it).</dd>
+</dl>
+
 ## Tips
 
 Automa greyscales images, so color differences should not matter. 
