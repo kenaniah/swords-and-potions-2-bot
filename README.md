@@ -49,8 +49,8 @@ Due to Automa's speed, all of your customers will end up mad after a few minutes
  <dd>Screenshot images need to have as little background noise as possible. Automa performs a grey-scale image similarity match, and it is not capable of filtering out backgrounds that are not part of what you are trying to match.</dd>
  <dt>Is there a way to make the bot faster? Image searching seems slow.</dt>
  <dd>Unfortunately Automa does not currently support parallel processing, range-constrained searches, nor the recognition of multiple patterns from a single screenshot. If these are the features you are looking for, you could always fork and rewrite the bot using OpenCV. Good luck (you'll need it).</dd>
- <dt>There's a memory leak / my computer bluescreened</dt>
- <dd>Welcome to Automa. I was able to workaround this by putting the bot on a scheduled task that killed / restarted it every 10 minutes or so.</dd>
+ <dt>There's a memory leak / my computer bluescreened :-/</dt>
+ <dd>Welcome to Automa. I was able to work around this by putting the bot on a scheduled task that killed and restarted it about every 10 minutes or so.</dd>
 </dl>
 
 ## Tips
