@@ -1,6 +1,6 @@
 # Swords and Potions 2 Bot
 
-This was a small personal project I started to automate the (sometimes) mundane task of playing [SNP2](http://www.edgebee.com/games?id=5).
+This was a small personal project I started to automate the (sometimes) mundane task of playing [SNP2](http://www.edgebee.com/games?id=5). **Please read the FAQ below before opening an issue.**
 
 ## Environment
 
@@ -44,7 +44,7 @@ Due to Automa's speed, all of your customers will end up mad after a few minutes
 
 <dl>
  <dt>The bot crashes instead of starting. Why?</dt>
- <dd>You are either using the wrong version of python (Automa is very specific) or the game's window was not found.</dd>
+ <dd>You are either using the wrong version of Python (Automa is very specific) or the game's window was not found.</dd>
  <dt>Why is the bot not able to find matches for my screenshots?</dt>
  <dd>Screenshot images need to have as little background noise as possible. Automa performs a grey-scale image similarity match, and it is not capable of filtering out backgrounds that are not part of what you are trying to match.</dd>
  <dt>Is there a way to make the bot faster? Image searching seems slow.</dt>
